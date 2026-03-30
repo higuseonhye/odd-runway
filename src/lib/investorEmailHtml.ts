@@ -1,4 +1,4 @@
-import { formatUsd, netBurn } from "./finance";
+import { effectiveNetBurn, formatUsd } from "./finance";
 import type { RunwayState } from "../types/runway";
 
 function escapeHtml(s: string): string {
@@ -14,7 +14,7 @@ export function buildInvestorUpdateHtml(
   runwayMonths: number | null,
   opts: { wins: string; asks: string }
 ): string {
-  const nb = netBurn(state.monthlyBurn, state.monthlyRevenue);
+  const nb = effectiveNetBurn(state.monthlyBurn, state.monthlyRevenue, state.monthlyDebtService);
   const runwayStr =
     runwayMonths === null ? "∞ (net burn ≤ 0)" : `${runwayMonths.toFixed(1)} months`;
   const monthYear = new Date().toLocaleString("en-US", { month: "long", year: "numeric" });

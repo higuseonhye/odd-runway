@@ -21,7 +21,7 @@ export function CrisisPanel({ runwayMonths }: Props) {
   const copy = crisisCopy(runwayMonths)[tier];
 
   return (
-    <section id="crisis" className="scroll-mt-20 px-4 py-16 sm:px-6">
+    <section id="crisis" className="scroll-mt-20 px-4 py-10 sm:px-6">
       <div className="mx-auto max-w-5xl">
         <h2 className="font-mono text-xs font-semibold uppercase tracking-widest text-muted">
           Crisis playbook

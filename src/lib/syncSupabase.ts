@@ -27,6 +27,9 @@ export async function pullSnapshot(): Promise<RunwayState | null> {
       monthlyBurn: Number(data.monthly_burn),
       monthlyRevenue: Number(data.monthly_revenue),
       momGrowthPct: Number(data.mom_growth_pct),
+      accountsReceivable: Number(data.accounts_receivable ?? 0),
+      monthlyDebtService: Number(data.monthly_debt_service ?? 0),
+      arCollectibilityPct: Number(data.ar_collectibility_pct ?? 50),
     };
   } catch {
     return null;
@@ -46,6 +49,9 @@ export async function pushSnapshot(state: RunwayState): Promise<void> {
         monthly_burn: state.monthlyBurn,
         monthly_revenue: state.monthlyRevenue,
         mom_growth_pct: state.momGrowthPct,
+        accounts_receivable: state.accountsReceivable,
+        monthly_debt_service: state.monthlyDebtService,
+        ar_collectibility_pct: state.arCollectibilityPct,
         updated_at: new Date().toISOString(),
       },
       { onConflict: "user_id" }

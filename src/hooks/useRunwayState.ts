@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { loadRunwayState, saveRunwayState } from "../lib/persist";
 import { pullSnapshot, pushSnapshot } from "../lib/syncSupabase";
-import { SCENARIOS } from "../lib/scenarios";
+import { SCENARIOS, scenarioToRunwayState } from "../lib/scenarios";
 import type { CsvModelSuggestion } from "../lib/csvFinance";
 import type { RunwayState } from "../types/runway";
 
@@ -9,12 +9,7 @@ export type { RunwayState } from "../types/runway";
 
 const defaultScenario = SCENARIOS[0]!;
 
-const initial: RunwayState = {
-  cashOnHand: defaultScenario.cashOnHand,
-  monthlyBurn: defaultScenario.monthlyBurn,
-  monthlyRevenue: defaultScenario.monthlyRevenue,
-  momGrowthPct: defaultScenario.momGrowthPct,
-};
+const initial: RunwayState = scenarioToRunwayState(defaultScenario);
 
 type Props = {
   userId: string | null;
@@ -63,13 +58,23 @@ export function useRunwayState({ userId, authReady }: Props) {
   const setMomGrowthPct = useCallback((v: number) => {
     setState((s) => ({ ...s, momGrowthPct: v }));
   }, []);
+  const setAccountsReceivable = useCallback((v: number) => {
+    setState((s) => ({ ...s, accountsReceivable: v }));
+  }, []);
+  const setMonthlyDebtService = useCallback((v: number) => {
+    setState((s) => ({ ...s, monthlyDebtService: v }));
+  }, []);
+  const setArCollectibilityPct = useCallback((v: number) => {
+    setState((s) => ({ ...s, arCollectibilityPct: v }));
+  }, []);
 
-  const applyCsvSuggestion = useCallback((s: CsvModelSuggestion) => {
+  const applyCsvSuggestion = useCallback((suggestion: CsvModelSuggestion) => {
     setState((prev) => ({
-      cashOnHand: s.cashOnHand ?? prev.cashOnHand,
-      monthlyBurn: s.monthlyBurn,
-      monthlyRevenue: s.monthlyRevenue,
-      momGrowthPct: s.momGrowthPct,
+      ...prev,
+      cashOnHand: suggestion.cashOnHand ?? prev.cashOnHand,
+      monthlyBurn: suggestion.monthlyBurn,
+      monthlyRevenue: suggestion.monthlyRevenue,
+      momGrowthPct: suggestion.momGrowthPct,
     }));
   }, []);
 
@@ -83,6 +88,9 @@ export function useRunwayState({ userId, authReady }: Props) {
     setMonthlyBurn,
     setMonthlyRevenue,
     setMomGrowthPct,
+    setAccountsReceivable,
+    setMonthlyDebtService,
+    setArCollectibilityPct,
     applyCsvSuggestion,
     applyPreset,
   };

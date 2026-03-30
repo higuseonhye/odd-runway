@@ -103,6 +103,21 @@ export const BREAK_CONVENTION: ResilienceSection[] = [
   },
 ];
 
+/** When even headline liquidity is gone — choices still exist (not legal advice). */
+export const WORST_EXTREME_LIQUIDITY: ResilienceSection[] = [
+  {
+    id: "no_cash_no_cards",
+    title: "When operating cash and modeled AR are gone — choices still exist",
+    body: [
+      "Payroll, WARN, final wages, and contractor status are jurisdiction-specific — get counsel before you act; wrong moves create personal liability.",
+      "Orderly wind-down: board / investor consent where required, customer and data handling, vendor settlement, cap table — can be a deliberate branch, not only chaos.",
+      "Last-resort liquidity (personal bridge, friends & family, SBA or asset-backed small-business credit, 401(k) / rollover) carries tax and relationship cost — model with a CPA, not a tweet.",
+      "Low-price sale, acquihire, or IP/asset sale — sometimes preserves jobs or customers; structure with counsel.",
+      "Bankruptcy tools (e.g. Ch. 7 / Ch. 11 in the US) and state insolvency paths — for a clean stop or reorganization — only with qualified counsel.",
+    ],
+  },
+];
+
 /** After a wind-down, sale, or stop — the spreadsheet ends; life and loose ends do not. */
 export const AFTER_IT_ENDS: ResilienceSection[] = [
   {

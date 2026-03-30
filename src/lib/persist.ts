@@ -13,6 +13,12 @@ export function loadRunwayState(fallback: RunwayState): RunwayState {
       monthlyRevenue:
         typeof p.monthlyRevenue === "number" ? p.monthlyRevenue : fallback.monthlyRevenue,
       momGrowthPct: typeof p.momGrowthPct === "number" ? p.momGrowthPct : fallback.momGrowthPct,
+      accountsReceivable:
+        typeof p.accountsReceivable === "number" ? p.accountsReceivable : fallback.accountsReceivable,
+      monthlyDebtService:
+        typeof p.monthlyDebtService === "number" ? p.monthlyDebtService : fallback.monthlyDebtService,
+      arCollectibilityPct:
+        typeof p.arCollectibilityPct === "number" ? p.arCollectibilityPct : fallback.arCollectibilityPct,
     };
   } catch {
     return fallback;

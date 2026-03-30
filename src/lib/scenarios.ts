@@ -1,11 +1,21 @@
-export type ScenarioPreset = {
+import type { RunwayState } from "../types/runway";
+
+export type ScenarioPreset = RunwayState & {
   id: string;
   label: string;
-  cashOnHand: number;
-  monthlyBurn: number;
-  monthlyRevenue: number;
-  momGrowthPct: number;
 };
+
+export function scenarioToRunwayState(s: ScenarioPreset): RunwayState {
+  return {
+    cashOnHand: s.cashOnHand,
+    monthlyBurn: s.monthlyBurn,
+    monthlyRevenue: s.monthlyRevenue,
+    momGrowthPct: s.momGrowthPct,
+    accountsReceivable: s.accountsReceivable,
+    monthlyDebtService: s.monthlyDebtService,
+    arCollectibilityPct: s.arCollectibilityPct,
+  };
+}
 
 export const SCENARIOS: ScenarioPreset[] = [
   {
@@ -15,6 +25,9 @@ export const SCENARIOS: ScenarioPreset[] = [
     monthlyBurn: 95_000,
     monthlyRevenue: 12_000,
     momGrowthPct: 7,
+    accountsReceivable: 45_000,
+    monthlyDebtService: 0,
+    arCollectibilityPct: 55,
   },
   {
     id: "series-a",
@@ -23,6 +36,9 @@ export const SCENARIOS: ScenarioPreset[] = [
     monthlyBurn: 420_000,
     monthlyRevenue: 180_000,
     momGrowthPct: 8,
+    accountsReceivable: 220_000,
+    monthlyDebtService: 8_000,
+    arCollectibilityPct: 65,
   },
   {
     id: "high-growth",
@@ -31,5 +47,8 @@ export const SCENARIOS: ScenarioPreset[] = [
     monthlyBurn: 520_000,
     monthlyRevenue: 310_000,
     momGrowthPct: 12,
+    accountsReceivable: 180_000,
+    monthlyDebtService: 12_000,
+    arCollectibilityPct: 60,
   },
 ];
