@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { netBurn, runwayMonths } from "./lib/finance";
+import { useAuth } from "./contexts/AuthContext";
 import { CrisisPanel } from "./components/CrisisPanel";
 import { DeadlinesSection } from "./components/DeadlinesSection";
 import { Footer } from "./components/Footer";
@@ -7,10 +7,15 @@ import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { InvestorStrip } from "./components/InvestorStrip";
 import { RunwaySimulator } from "./components/RunwaySimulator";
+import { netBurn, runwayMonths } from "./lib/finance";
 import { useRunwayState } from "./hooks/useRunwayState";
 
 export default function App() {
-  const runwayState = useRunwayState();
+  const { userId, loading: authLoading } = useAuth();
+  const runwayState = useRunwayState({
+    userId,
+    authReady: !authLoading,
+  });
 
   const runway = useMemo(() => {
     const nb = netBurn(runwayState.monthlyBurn, runwayState.monthlyRevenue);

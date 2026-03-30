@@ -1,18 +1,14 @@
 import type { RunwayState } from "../types/runway";
 import { getSupabase } from "./supabase";
 
-async function ensureUser(): Promise<string | null> {
+async function getSessionUserId(): Promise<string | null> {
   const sb = getSupabase();
   if (!sb) return null;
   try {
     const {
-      data: { user },
-    } = await sb.auth.getUser();
-    if (user) return user.id;
-    const { error } = await sb.auth.signInAnonymously();
-    if (error) return null;
-    const u = (await sb.auth.getUser()).data.user;
-    return u?.id ?? null;
+      data: { session },
+    } = await sb.auth.getSession();
+    return session?.user.id ?? null;
   } catch {
     return null;
   }
@@ -22,7 +18,7 @@ export async function pullSnapshot(): Promise<RunwayState | null> {
   const sb = getSupabase();
   if (!sb) return null;
   try {
-    const uid = await ensureUser();
+    const uid = await getSessionUserId();
     if (!uid) return null;
     const { data, error } = await sb.from("user_finance").select("*").eq("user_id", uid).maybeSingle();
     if (error || !data) return null;
@@ -41,7 +37,7 @@ export async function pushSnapshot(state: RunwayState): Promise<void> {
   const sb = getSupabase();
   if (!sb) return;
   try {
-    const uid = await ensureUser();
+    const uid = await getSessionUserId();
     if (!uid) return;
     const { error } = await sb.from("user_finance").upsert(
       {

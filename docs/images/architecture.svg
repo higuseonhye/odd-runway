@@ -33,7 +33,7 @@
 
   <rect x="440" y="220" width="140" height="72" rx="8" fill="#12141a" stroke="#4f7cff" stroke-width="1"/>
   <text x="510" y="248" fill="#4f7cff" font-family="system-ui,sans-serif" font-size="11" font-weight="600" text-anchor="middle">Supabase</text>
-  <text x="510" y="268" fill="#8b92a1" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">optional, anon auth</text>
+  <text x="510" y="268" fill="#8b92a1" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">optional, email auth</text>
 
   <rect x="600" y="220" width="140" height="72" rx="8" fill="#12141a" stroke="#fbbf24" stroke-width="1"/>
   <text x="670" y="248" fill="#fbbf24" font-family="system-ui,sans-serif" font-size="11" font-weight="600" text-anchor="middle">Parse pipeline</text>

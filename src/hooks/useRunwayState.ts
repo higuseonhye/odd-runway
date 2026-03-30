@@ -16,19 +16,29 @@ const initial: RunwayState = {
   momGrowthPct: defaultScenario.momGrowthPct,
 };
 
-export function useRunwayState() {
+type Props = {
+  userId: string | null;
+  authReady: boolean;
+};
+
+export function useRunwayState({ userId, authReady }: Props) {
   const [state, setState] = useState<RunwayState>(() => loadRunwayState(initial));
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const bootstrapped = useRef(false);
+  const pulledForUser = useRef<string | null>(null);
 
   useEffect(() => {
-    if (bootstrapped.current) return;
-    bootstrapped.current = true;
+    if (!authReady) return;
+    if (!userId) {
+      pulledForUser.current = null;
+      return;
+    }
+    if (pulledForUser.current === userId) return;
+    pulledForUser.current = userId;
     void (async () => {
       const cloud = await pullSnapshot();
       if (cloud) setState(cloud);
     })();
-  }, []);
+  }, [authReady, userId]);
 
   useEffect(() => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
