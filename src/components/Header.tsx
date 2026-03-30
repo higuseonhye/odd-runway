@@ -1,0 +1,31 @@
+export function Header() {
+  return (
+    <header className="border-b border-line/80 bg-canvas/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+        <a href="#" className="flex items-center gap-2 font-semibold tracking-tight text-ink">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface font-mono text-sm text-accent ring-1 ring-line">
+            R
+          </span>
+          Runway
+        </a>
+        <nav className="hidden items-center gap-8 text-sm text-muted sm:flex">
+          <a href="#simulator" className="hover:text-ink">
+            Simulator
+          </a>
+          <a href="#crisis" className="hover:text-ink">
+            Crisis playbook
+          </a>
+          <a href="#deadlines" className="hover:text-ink">
+            Deadlines
+          </a>
+        </nav>
+        <a
+          href="#simulator"
+          className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white shadow-lg shadow-accent/25 transition hover:bg-accent/90"
+        >
+          Open simulator
+        </a>
+      </div>
+    </header>
+  );
+}
