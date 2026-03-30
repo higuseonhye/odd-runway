@@ -14,6 +14,8 @@ type AuthContextValue = {
   session: Session | null;
   user: User | null;
   userId: string | null;
+  /** Present when signed in; use for Authorization header to the mail API */
+  accessToken: string | null;
   loading: boolean;
   supabaseConfigured: boolean;
   signOut: () => Promise<void>;
@@ -101,6 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       user: session?.user ?? null,
       userId: session?.user?.id ?? null,
+      accessToken: session?.access_token ?? null,
       loading,
       supabaseConfigured,
       signOut,

@@ -5,16 +5,23 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k \"vite\" \"node server/index.mjs\"",
+    "dev:client": "vite",
+    "dev:server": "node server/index.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "generate:sample": "node scripts/build-sample-xlsx.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.100.1",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
     "papaparse": "^5.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "resend": "^6.9.4",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

@@ -26,6 +26,9 @@ export function Header() {
             <a href="#deadlines" className="hover:text-ink">
               Deadlines
             </a>
+            <a href="#investor-email" className="hover:text-ink">
+              Investor email
+            </a>
           </nav>
           <div className="flex flex-wrap items-center justify-end gap-2">
             {supabaseConfigured && !loading && (

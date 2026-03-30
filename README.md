@@ -1,8 +1,8 @@
 # Runway
 
-Web app for **US-market** startup founders: model **cash runway, burn, and investor rhythms** in one place (USD). Core flows run in the browser; **optional Supabase** adds sign-in and cloud sync.
+Web app for **US-market** startup founders: model **cash runway, burn, and investor rhythms** in one place (USD). Core flows run in the browser; **optional Supabase** adds sign-in and cloud sync; **optional Resend** sends investor-update emails via a tiny Node API.
 
-**Stack:** Vite 5 · React 18 · TypeScript · Tailwind · Papa Parse · SheetJS (`xlsx`) · Supabase (optional auth + DB).
+**Stack:** Vite 5 · React 18 · TypeScript · Tailwind · Papa Parse · SheetJS (`xlsx`) · Supabase (optional) · Express + Resend (optional mail API).
 
 ---
 
@@ -15,7 +15,8 @@ Web app for **US-market** startup founders: model **cash runway, burn, and inves
 | Import | CSV or Excel (first sheet) → inferred burn, revenue, ending balance when present |
 | Crisis playbook | Actions + copy tiered by computed runway (months) |
 | Hygiene | Monthly / quarterly deadline checklist |
-| Data | **localStorage** always; **Supabase** sync after email sign-in (magic link or password) |
+| Data | **localStorage** always; **Supabase** sync after email sign-in |
+| **Investor email** | Build HTML from current numbers + wins/asks; **Send via Resend** (needs API server + `RESEND_API_KEY`) |
 
 ---
 
@@ -40,16 +41,34 @@ npm install
 npm run dev
 ```
 
-Open the printed URL (usually `http://localhost:5173`). **No backend required** for sliders, CSV import, and crisis copy.
+This starts **Vite** (frontend) and the **Express** API (`server/index.mjs` on port **8787**) together. The dev server proxies `/api/*` to the API.
+
+- **Frontend only:** `npm run dev:client`
+- **API only:** `npm run dev:server`
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Deploy **`dist/`** to Vercel, Netlify, Cloudflare Pages, or GitHub Pages.
+Deploy **`dist/`** to a static host. For **investor emails in production**, run the API on a host (Railway, Fly, Render, etc.) and set `VITE_API_URL` to that origin so the browser can call it (or put API and SPA behind one reverse proxy).
 
-**Smoke test:** Download **sample.csv** / **sample.xlsx** in the app → upload → **Apply to model**.
+**Smoke test:** sample CSV → **Apply to model**; sign in → **Investor email** → send a test (after Resend is configured).
+
+---
+
+## Investor emails (Resend)
+
+1. Create an account at [resend.com](https://resend.com) and create an **API key**.
+2. For production `from` addresses, **verify a domain** in Resend. For quick tests you can use `Runway <onboarding@resend.dev>` (subject to [Resend test limits](https://resend.com/docs)).
+3. Add to `.env` (see `.env.example`):
+   - `RESEND_API_KEY`
+   - `RESEND_FROM` (optional; defaults to `Runway <onboarding@resend.dev>`)
+   - `SUPABASE_URL` / `SUPABASE_ANON_KEY` (or rely on `VITE_SUPABASE_*` — the server reads both)
+4. **Sign in** in the app so the API can verify your Supabase session.
+5. Open **Investor email**, fill **To** / wins / asks, **Send via Resend**.
+
+The API (`POST /api/investor-update`) checks the `Authorization: Bearer <access_token>` header against Supabase, then sends HTML via Resend.
 
 ---
 
@@ -75,14 +94,12 @@ npm run generate:sample   # rebuild .xlsx from CSV after edits
 ## Supabase (sign-in + sync)
 
 1. Create a project at [supabase.com](https://supabase.com).
-2. **Authentication → URL configuration:** set **Site URL** to your app origin (e.g. `http://localhost:5173` for dev, production URL when deployed). Add the same to **Redirect URLs** if needed.
-3. **Authentication → Providers:** ensure **Email** is enabled (default).
-4. In the SQL editor, run all files in `supabase/migrations/` in order (`user_finance`, then `profiles`).
-5. Copy `.env.example` to `.env` and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+2. **Authentication → URL configuration:** **Site URL** = app origin (`http://localhost:5173` in dev). Add **Redirect URLs** as needed.
+3. **Authentication → Providers:** **Email** enabled.
+4. Run `supabase/migrations/*.sql` in order in the SQL editor.
+5. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in `.env`, restart `npm run dev`.
 
-Restart the dev server. Use **Sign in** in the header: magic link or email + password. Synced runway values live in `user_finance`; `profiles` stores a row per user.
-
-Without `.env`, the app works offline-only (no Sign in button).
+Without Supabase env vars, the app works offline-only (no Sign in).
 
 ---
 
@@ -90,9 +107,9 @@ Without `.env`, the app works offline-only (no Sign in button).
 
 | Phase | Ideas |
 |-------|--------|
-| **Now** | Deployed static URL, real screenshots, small UX polish |
-| **Integrations** | Plaid / Stripe / QuickBooks read-only connections |
-| **Comms** | Investor update emails (e.g. Resend + React Email) |
+| **Now** | Deploy static app + API; custom domain on Resend |
+| **Integrations** | Plaid / Stripe / QuickBooks |
+| **Comms** | Richer templates (React Email), scheduling, mailing lists |
 | **Team** | Org accounts, roles, audit trail |
 
 ---

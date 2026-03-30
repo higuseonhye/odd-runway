@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { InvestorStrip } from "./components/InvestorStrip";
+import { InvestorUpdatePanel } from "./components/InvestorUpdatePanel";
 import { RunwaySimulator } from "./components/RunwaySimulator";
 import { netBurn, runwayMonths } from "./lib/finance";
 import { useRunwayState } from "./hooks/useRunwayState";
@@ -41,6 +42,7 @@ export default function App() {
           onApplyCsv={runwayState.applyCsvSuggestion}
         />
         <CrisisPanel runwayMonths={runway} />
+        <InvestorUpdatePanel runwayState={runwayState} runwayMonths={runway} />
         <DeadlinesSection />
       </main>
       <Footer />
