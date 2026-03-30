@@ -1,6 +1,6 @@
 # Runway
 
-Web app for **US-market** startup founders: model **cash runway, burn, and investor rhythms** in one place (USD). Core flows run in the browser; **optional Supabase** adds sign-in and cloud sync; **optional Resend** sends investor-update emails via a tiny Node API.
+Web app for **US-market** startup founders: model **cash runway, burn, and investor rhythms** in one place (USD). It infers an **operating mode** from your numbers (no confessional onboarding), surfaces a **one-line “silent” insight**, and adds a **Resilience** section oriented to **next moves and execution** — not therapy. It does **not** assume every company survives; it aims to **clarify options** (including orderly exits). Core flows run in the browser; **optional Supabase** adds sign-in and cloud sync; **optional Resend** sends investor-update emails via a tiny Node API.
 
 **Stack:** Vite 5 · React 18 · TypeScript · Tailwind · Papa Parse · SheetJS (`xlsx`) · Supabase (optional) · Express + Resend (optional mail API).
 
@@ -11,26 +11,14 @@ Web app for **US-market** startup founders: model **cash runway, burn, and inves
 | Area | What it does |
 |------|----------------|
 | Runway model | Cash, gross burn, MRR-style revenue, MoM growth → net burn, runway, breakeven, 12‑month chart |
+| Situation surface | Inferred **mode** (normal → survival) from runway + burn; optional **pressure** toggles (local only) adjust copy — no story required |
+| Resilience | **Execution-first**, **outcome-neutral** copy (survival not guaranteed): **when nothing feels possible**, healthy throughput, worst-case horizons, when “conventions” hurt, **after it ends** (post-closure life and loose ends — not modeled here); legal/tax as **paperwork and compliance**, not a substitute for your operating plan |
 | Presets | Seed / Series A / High growth |
 | Import | CSV or Excel (first sheet) → inferred burn, revenue, ending balance when present |
 | Crisis playbook | Actions + copy tiered by computed runway (months) |
 | Hygiene | Monthly / quarterly deadline checklist |
 | Data | **localStorage** always; **Supabase** sync after email sign-in |
 | **Investor email** | Build HTML from current numbers + wins/asks; **Send via Resend** (needs API server + `RESEND_API_KEY`) |
-
----
-
-## Diagrams
-
-Illustrative SVGs. Swap in PNG/WebP under `docs/images/` if you want real screenshots.
-
-<p align="center">
-  <img src="./docs/images/demo-overview.svg" alt="Product flow" width="720" />
-</p>
-
-<p align="center">
-  <img src="./docs/images/architecture.svg" alt="Architecture" width="720" />
-</p>
 
 ---
 
@@ -116,7 +104,9 @@ Without Supabase env vars, the app works offline-only (no Sign in).
 
 ## Disclaimer
 
-Educational / prototype use only. Not financial, legal, or investment advice.
+Educational / prototype use only. **Not** financial, legal, tax, or investment advice.
+
+The app is for **orienting your plan** from numbers and copy in the UI. It does **not** promise a particular outcome (including company survival). When you execute bridges, restructuring, wind-down, M&A, layoffs, or other moves with legal or tax edges, use **qualified legal and tax review** so execution stays clean — that review complements your plan; it does not replace addressing cash, burn, and stakeholder reality.
 
 ---
 

@@ -23,6 +23,9 @@ export function Header() {
             <a href="#crisis" className="hover:text-ink">
               Crisis playbook
             </a>
+            <a href="#resilience" className="hover:text-ink">
+              Resilience
+            </a>
             <a href="#deadlines" className="hover:text-ink">
               Deadlines
             </a>

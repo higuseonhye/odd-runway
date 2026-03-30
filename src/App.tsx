@@ -7,9 +7,13 @@ import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { InvestorStrip } from "./components/InvestorStrip";
 import { InvestorUpdatePanel } from "./components/InvestorUpdatePanel";
+import { ResiliencePanel } from "./components/ResiliencePanel";
 import { RunwaySimulator } from "./components/RunwaySimulator";
-import { netBurn, runwayMonths } from "./lib/finance";
+import { SituationSurface } from "./components/SituationSurface";
+import { usePressureFlags } from "./hooks/usePressureFlags";
 import { useRunwayState } from "./hooks/useRunwayState";
+import { netBurn, runwayMonths } from "./lib/finance";
+import { inferSituation } from "./lib/situationInference";
 
 export default function App() {
   const { userId, loading: authLoading } = useAuth();
@@ -17,11 +21,24 @@ export default function App() {
     userId,
     authReady: !authLoading,
   });
+  const { flags, toggle } = usePressureFlags();
 
   const runway = useMemo(() => {
     const nb = netBurn(runwayState.monthlyBurn, runwayState.monthlyRevenue);
     return runwayMonths(runwayState.cashOnHand, nb);
   }, [runwayState.cashOnHand, runwayState.monthlyBurn, runwayState.monthlyRevenue]);
+
+  const inferred = useMemo(
+    () => inferSituation(runwayState, runway, flags),
+    [
+      runwayState.cashOnHand,
+      runwayState.monthlyBurn,
+      runwayState.monthlyRevenue,
+      runwayState.momGrowthPct,
+      runway,
+      flags,
+    ]
+  );
 
   return (
     <>
@@ -29,6 +46,7 @@ export default function App() {
       <main>
         <Hero />
         <InvestorStrip />
+        <SituationSurface inferred={inferred} flags={flags} onTogglePressure={toggle} />
         <RunwaySimulator
           cashOnHand={runwayState.cashOnHand}
           monthlyBurn={runwayState.monthlyBurn}
@@ -42,6 +60,7 @@ export default function App() {
           onApplyCsv={runwayState.applyCsvSuggestion}
         />
         <CrisisPanel runwayMonths={runway} />
+        <ResiliencePanel mode={inferred.mode} />
         <InvestorUpdatePanel runwayState={runwayState} runwayMonths={runway} />
         <DeadlinesSection />
       </main>
