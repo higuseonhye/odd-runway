@@ -60,20 +60,20 @@ export function buildActionCards(inferred: InferredSituation, state: RunwayState
 
   cards.push(
     {
-      id: "full-model",
-      category: "research",
-      title: "Stress-test revenue & burn",
-      subtitle: "Open the full model with growth, import, and 12‑month chart.",
-      status: "ready",
-      href: "#runway",
-    },
-    {
       id: "draft-update",
       category: "capital",
-      title: "Draft investor update",
-      subtitle: "Build HTML from today’s numbers, wins, and asks.",
+      title: "Send this month's investor update",
+      subtitle: "Auto-filled from your numbers. Add wins and asks, then send.",
       status: "ready",
       href: "#investor-email",
+    },
+    {
+      id: "full-model",
+      category: "research",
+      title: "Stress-test your runway",
+      subtitle: "Full model with growth, CSV import, and 12-month chart.",
+      status: "ready",
+      href: "#runway",
     },
     {
       id: "playbooks",

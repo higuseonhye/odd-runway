@@ -21,11 +21,11 @@ export function Hero({ activeTab }: Props) {
           For US seed &amp; Series A founders
         </p>
         <h1 className="max-w-3xl text-3xl font-bold leading-[1.12] tracking-tight text-ink sm:text-4xl lg:text-5xl">
-          Cash runway in one place — <span className="text-muted">then choose your next move.</span>
+          Stop thinking about money. <span className="text-muted">Start building.</span>
         </h1>
         <p className="mt-4 max-w-2xl text-base text-muted sm:text-lg">
-          Overview shows your situation and action cards; full model and tools live on their tabs — less
-          scrolling, same saved state.
+          Your runway, burn rate, and investor updates — handled automatically, so you can focus on what
+          actually matters: building the product and talking to customers.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a

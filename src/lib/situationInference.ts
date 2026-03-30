@@ -85,34 +85,32 @@ function silentLine(
     cashRw !== null && cashRw <= 0.25 && netBurnVal > 0;
 
   if (cashZeroish && runwayM !== null && runwayM > 0.5 && hasLiquidityBeyondCash) {
-    return "Operating cash is nearly gone on this model, but receivables or other modeled liquidity still buy time — collections and terms are now the P0, not the deck.";
+    return "Operating cash is almost gone, but receivables give you time. Collect aggressively — that's the only lever right now.";
   }
 
   if (
     (runwayM !== null && runwayM <= 0.5 && netBurnVal > 0) ||
     (cashRw !== null && cashRw <= 0 && runwayM !== null && runwayM <= 0)
   ) {
-    return "At these inputs, runway on the headline model is effectively gone — the next choices are non-financial-accounting: payroll law, contracts, personal exposure, and orderly wind-down or bridge. See Playbooks → worst case; this app does not provide legal advice.";
+    return "Runway is effectively gone at these inputs. See Playbooks for what to do next — wind-down, bridge, or sale. Get legal counsel before acting.";
   }
 
   if (mode === "survival") {
-    return "Your inputs imply cash timing is the constraint — triage beats narrative. You do not owe this app a story; you owe the next seven days a plan.";
+    return "Cash is the only constraint right now. Make a plan for the next 7 days — not a story, a plan.";
   }
   if (mode === "crisis") {
-    return "The math points to a crisis band — parallel levers (spend, capital, collections, debt service) beat serial hope. Many founders in this band benefit from one trusted peer or advisor in the loop, not solo heroics.";
+    return "This week's decisions matter. Cut spend, start fundraising conversations, and accelerate collections — in parallel, not sequence.";
   }
   if (mode === "tight") {
-    return "Runway and fundraising clocks overlap in the US — optionality fades faster than it feels. Starting real conversations early is the healthy default.";
+    return "Runway is getting tight. Fundraising takes 6+ months in the US — start real conversations now, while you still have options.";
   }
   if (runwayM === null || netBurnVal <= 0) {
-    return "At these inputs, cash-out is not the immediate bind — still stress-test downside, debt service, and AR quality; keep investor rhythm boringly consistent.";
+    return "You're cash-flow positive at these inputs. Keep building — and keep investors updated monthly.";
   }
 
-  const liqNote = hasLiquidityBeyondCash
-    ? " Headline uses adjusted liquidity (cash + conservative AR) and includes debt service in burn."
-    : "";
+  const liqNote = hasLiquidityBeyondCash ? " AR and debt are included in this headline number." : "";
 
-  return `Roughly ${runwayM!.toFixed(1)} months of headline runway at effective net burn — protect 18+ months when you can; stress-test revenue miss, AR collection, and burn creep quarterly.${liqNote}`;
+  return `You're safe to build. ~${runwayM!.toFixed(1)} months of runway — focus on product and customers.${liqNote}`;
 }
 
 function pressureAddendumFor(pressure: Set<PressureFlag>, mode: OperatingMode): string | null {
